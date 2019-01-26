@@ -18,12 +18,13 @@ export default {
     return {
       intervalId: undefined,
       labels: [],
-      data: []
+      data: [],
+      token: ''
     }
   },
   methods: {
     getData: function(){
-      jsonp('https://api.openweathermap.org/data/2.5/weather?id=1858311&appid=434d547f0abc51b1c0a3f9fc01ee749a', null, (error, data) => {
+      jsonp('https://api.openweathermap.org/data/2.5/weather?id=1858311&appid=', null, (error, data) => {
         if (error) { console.log(error) }
         else {
           var temp = data.main.temp
