@@ -8,6 +8,8 @@
 <script>
 import ChartTest from './components/ChartTest'
 import jsonp from 'jsonp'
+import tokens from './assets/tokens.json'
+import response from './assets/data.json'
 
 export default {
   name: 'App',
@@ -19,12 +21,13 @@ export default {
       intervalId: undefined,
       labels: [],
       data: [],
-      token: ''
+      token: tokens.token,
+      response: response
     }
   },
   methods: {
-    getData: function(){
-      jsonp('https://api.openweathermap.org/data/2.5/weather?id=1858311&appid=', null, (error, data) => {
+    //getData: function(){
+      /*jsonp('https://api.openweathermap.org/data/2.5/weather?id=1858311&appid=' + this.token, null, (error, data) => {
         if (error) { console.log(error) }
         else {
           var temp = data.main.temp
@@ -33,15 +36,23 @@ export default {
           this.data.push(temp)
           this.labels.push(timestamp)
         }
-      })
-    }
+      })*/
+    //}
   },
   created() {
-    this.getData
+    //this.getData
+    var tmp = response.hourly.data
+    console.log(tmp)
+    var self = this
+    tmp.forEach(function(item) {
+      self.data.push((item.temperature - 32) / 1.8)
+      self.labels.push(item.time)
+    })
+    console.log(this.labels)
   },
   mounted() {
-    var self = this
-    this.intervalId = setInterval(function(){self.getData()}, 30000)
+    //var self = this
+    //this.intervalId = setInterval(function(){self.getData()}, 30000)
   }
 }
 </script>
